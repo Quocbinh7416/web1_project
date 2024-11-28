@@ -110,6 +110,10 @@ h1 {
     background-color: var(--web1-pink);
 }
 
+#about-us h4 {
+    color: black;
+}
+
 #formSignUp{
     border-style: dashed !important;
     border-color: rgba(0, 0, 0, 0.5) !important;
@@ -143,3 +147,16 @@ footer{
     background-color: var(--web1-blue);
     color: white;
 }
+
+/* TESTIMONIAL */
+
+#testimonial {
+    background-color: var(--web1-pink);
+}
+
+#testimonial .col-4 {
+    background: url('../images/quot.png') left top no-repeat;
+    padding-left: 3rem;
+}
+
+/* OUR TEAM */
