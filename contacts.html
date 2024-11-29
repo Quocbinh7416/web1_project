@@ -275,6 +275,14 @@
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute('6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK', {action: 'LOGIN'});
           console.log(token);
+          let response = await fetch("myVerify.php", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
+                body: JSON.stringify({ "g-token": token }),
+              });
         });
       }
       async function sendMail() {
