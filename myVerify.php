@@ -19,7 +19,7 @@ function create_assessment(
   string $token,
   string $project,
   string $action
-): void {
+): bool {
   // Create the reCAPTCHA client.
   // TODO: Cache the client generation code (recommended) or call client.close() before exiting the method.
   $client = new RecaptchaEnterpriseServiceClient();
@@ -52,14 +52,12 @@ function create_assessment(
       // Get the risk score and the reason(s).
       // For more information on interpreting the assessment, see:
       // https://cloud.google.com/recaptcha-enterprise/docs/interpret-assessment
-      printf('The score for the protection action is:');
-      printf($response->getRiskAnalysis()->getScore());
+      return true;
     } else {
-      printf('The action attribute in your reCAPTCHA tag does not match the action you are expecting to score');
+      return false;
     }
   } catch (exception $e) {
-    printf('CreateAssessment() call failed with the following error: ');
-    printf($e);
+    return false;
   }
 }
 
