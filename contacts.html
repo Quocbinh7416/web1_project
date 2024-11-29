@@ -271,6 +271,7 @@
     <script>
 
       function onSubmit(e) {
+        e.preventDefault();
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute('6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK', {action: 'LOGIN'});
           console.log(token);
