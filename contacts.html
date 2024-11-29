@@ -274,7 +274,6 @@
         e.preventDefault();
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute('6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK', {action: 'LOGIN'});
-          console.log(token);
           let response = await fetch("myVerify.php", {
                 method: "POST",
                 headers: {
@@ -296,6 +295,7 @@
       }
       async function sendMail() {
         let responseMessage = document.getElementById("responseMessage");
+        esponseMessage.innerHTML = "OK";
       }
 
     </script>
