@@ -58,14 +58,28 @@
                         <a class="nav-link active" href="contacts.html">Contacts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Login</a>
+                      <a class="nav-link linkLogin"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalLogin"
+                      >Login</a>
+                      <a class="nav-link linkLogout" href="#" onclick="logout()">Logout</a>
                     </li>
                 </ul>
-                <form class="d-flex my-2 my-lg-0 border rounded-pill" id="formSearch">
-                    <input class="form-control ms-3 border-0" type="text" placeholder="Search">
-                    <button class="btn my-2 my-sm-0 border-0" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                <form
+                  class="d-flex my-2 my-lg-0 border rounded-pill" id="formSearch"
+                  method="GET"
+                  action="search.html"
+                >
+                  <input
+                    class="form-control ms-3 border-0"
+                    type="text"
+                    placeholder="Search"
+                    id="keyword" name="keyword"
+                  />
+                  <button class="btn my-2 my-sm-0 border-0" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
                 </form>
             </div>
       </div>
@@ -208,38 +222,73 @@
             <a class="nav-link active" href="contacts.html">Contacts</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"
-             data-bs-toggle="modal" data-bs-target="#modalLogin">Login</a>
+          <a class="nav-link linkLogin"
+          href="#"
+          data-bs-toggle="modal"
+          data-bs-target="#modalLogin"
+          >Login</a>
+          <a class="nav-link linkLogout" href="#" onclick="logout()">Logout</a>
         </li>
     </ul>
     <p class="text-white-50">Copyright &copy; 2024 by Nguyen Quoc Binh - 23880008</p>
 
   </footer>
   
-  <!-- Modal Body -->
-  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div class="modal fade" id="modalLogin" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+    <!-- Modal Body -->
+    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+    <div
+      class="modal fade"
+      id="modalLogin"
+      tabindex="-1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      role="dialog"
+      aria-labelledby="modalTitleId"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+        role="document"
+      >
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" 
-                aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#" method="post" id="formLogin">
-                    <h3 class="text-center ">Login Form</h3>
-                    <input type="text" name="username" id="username" placeholder="Username" class="form-control">
-                    <div class="mb-3">
-                      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                    </div>
-                    <button class="form-control" type="submit">Login</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-            </div>
+          <div class="modal-header">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="#" method="post" id="formLogin" onsubmit="login(event)">
+              <h3 class="text-center">Login Form</h3>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+                class="form-control my-2"
+                required
+              />
+              <div class="mb-3">
+                <input
+                  type="password"
+                  class="form-control mb-2"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <button class="form-control" type="submit">Login</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <div class="text-danger justify-content-center" id="errorMessage"></div>
+          </div>
         </div>
+      </div>
     </div>
-  </div>
   
   
   <!-- Optional: Place to the bottom of scripts -->
@@ -269,6 +318,7 @@
     <script src="/js/23880008.js"></script>
 
     <script>
+    checkLogin();
 
       function onSubmit(e) {
         e.preventDefault();
@@ -283,21 +333,47 @@
                 body: JSON.stringify({ "g-token": token }),
               });
         });
-        if(response) {
-          sendMail();
-        } else {
-          let responseMessage =
+        if (response.status == 200) {
+                sendMail();
+              } else {
+                let responseMessage =
                   document.getElementById("responseMessage");
                 responseMessage.innerHTML = "Error: can not verify RECAPTCHA";
                 responseMessage.classList.remove();
                 responseMessage.className = "text-danger";
-        }
+              }
       }
       async function sendMail() {
         let responseMessage = document.getElementById("responseMessage");
-        esponseMessage.innerHTML = "OK";
-        responseMessage.classList.remove();
-        responseMessage.className = "text-info";
+        try {
+          let token = await getAuthenticateToken("test", "1c3cr3@m");
+          let postData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            subject: document.getElementById("subject").value,
+            message: document.getElementById("message").value,
+            copy: document.getElementById("copy").value,
+          };
+          let response = await fetch(`${AUTHENTICATE_API}/send`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(postData),
+          });
+          let result = await response.json();
+          if (response.status == 200) {
+            responseMessage.innerHTML = result.message;
+            responseMessage.className = "text-primary";
+          } else {
+            throw new Error(result.message);
+          }
+        } catch (error) {
+          responseMessage.innerHTML = error;
+          responseMessage.className = "text-danger";
+        }
       }
 
     </script>

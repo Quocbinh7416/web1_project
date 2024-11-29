@@ -7,6 +7,7 @@ if (isset($_POST) && isset($_POST['g-token'])) {
     $ip = $_SERVER['REMOTE_ADDR'];
 
     $url = "https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$token."&remoteip=".$ip;
+    
     $request = file_get_contents($url);
     $response = json_decode($request); 
 

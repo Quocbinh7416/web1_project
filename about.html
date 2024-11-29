@@ -55,14 +55,28 @@
                         <a class="nav-link" href="contacts.html">Contacts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Login</a>
+                      <a class="nav-link linkLogin"
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalLogin"
+                      >Login</a>
+                      <a class="nav-link linkLogout" href="#" onclick="logout()">Logout</a>
                     </li>
                 </ul>
-                <form class="d-flex my-2 my-lg-0 border rounded-pill" id="formSearch">
-                    <input class="form-control ms-3 border-0" type="text" placeholder="Search">
-                    <button class="btn my-2 my-sm-0 border-0" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                <form
+                  class="d-flex my-2 my-lg-0 border rounded-pill" id="formSearch"
+                  method="GET"
+                  action="search.html"
+                >
+                  <input
+                    class="form-control ms-3 border-0"
+                    type="text"
+                    placeholder="Search"
+                    id="keyword" name="keyword"
+                  />
+                  <button class="btn my-2 my-sm-0 border-0" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
                 </form>
             </div>
       </div>
@@ -75,6 +89,9 @@
   </section>
 
   <div id="content">
+
+  </div>
+  <div id="main">
     <!-- ABOUT US -->
     <div class="container py-5">
       <div class="row">
@@ -94,6 +111,7 @@
 
     </section>
   </div>
+
   <footer class="text-center container-fluid text-white py-3">
     <!-- place footer here -->
     <ul class="nav justify-content-center py-3" id="menu-footer">
@@ -120,30 +138,61 @@
     <p class="text-white-50">Copyright &copy; 2024 by Nguyen Quoc Binh - 23880008</p>
   </footer>
   
-  <!-- Modal Body -->
-  <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-  <div class="modal fade" id="modalLogin" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+    <!-- Modal Body -->
+    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+    <div
+      class="modal fade"
+      id="modalLogin"
+      tabindex="-1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      role="dialog"
+      aria-labelledby="modalTitleId"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+        role="document"
+      >
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" 
-                aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#" method="post" id="formLogin">
-                    <h3 class="text-center ">Login Form</h3>
-                    <input type="text" name="username" id="username" placeholder="Username" class="form-control">
-                    <div class="mb-3">
-                      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                    </div>
-                    <button class="form-control" type="submit">Login</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-            </div>
+          <div class="modal-header">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="#" method="post" id="formLogin" onsubmit="login(event)">
+              <h3 class="text-center">Login Form</h3>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+                class="form-control my-2"
+                required
+              />
+              <div class="mb-3">
+                <input
+                  type="password"
+                  class="form-control mb-2"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <button class="form-control" type="submit">Login</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <div class="text-danger justify-content-center" id="errorMessage"></div>
+          </div>
         </div>
+      </div>
     </div>
-  </div>
   
   
   <!-- Optional: Place to the bottom of scripts -->
@@ -174,8 +223,8 @@
     <div>
       <img src="{{thumbpath}}" alt="About us" class="float-start rounded-4 me-3">
       <div class="text-black-50">{{{summary}}}</div>
-      <a href="#" class="btn btn-link readmore py-0 ps-0"
-      onclick = "loadData('aboutus/{{id}}', 'details-about-template', 'content')">Read more</a>
+      <a href="#aboutus/{{id}}" class="btn btn-link readmore py-0 ps-0"
+      onclick = "loadDetails('aboutus/{{id}}', 'details-about-template', 'content')">Read more</a>
     </div>
     {{/each}}
   </script>
@@ -183,7 +232,7 @@
   <script id="our-vision-template" type="text/x-handlebars-template">
     <h1 class="py-3">Our Vision</h1>
     {{#each data}}
-      <a href="#" class="text-decoration-none" onclick = "loadData('visions/{{id}}', 'details-about-template', 'content')">
+      <a href="#visions/{{id}}" class="text-decoration-none" onclick = "loadDetails('visions/{{id}}', 'details-about-template', 'content')">
         <div class="mb-4 clearfix">
           <img src="{{thumbpath}}" alt="vision1" class="float-start rounded-4 me-4">
           <h3 class="text-black">{{name}}</h3>
@@ -219,8 +268,8 @@
       <div class="row py-3">
         {{#each data}}
           <div class="col">
-            <a href="#" class="text-decoration-none"
-              onclick = "loadData('team/{{id}}', 'details-about-template', 'content')">
+            <a href="#team/{{id}}" class="text-decoration-none"
+              onclick = "loadDetails('team/{{id}}', 'details-about-template', 'content')">
               <img class="rounded-4 img-fluid" src="{{thumbpath}}" alt="ourteam1">
               <h4 class="py-2 text-black">{{name}}</h4>
               <p class="text-black-50">{{summary}}</p>
@@ -239,14 +288,42 @@
       {{/each}}
     </section>
   </script>
-  
-  <script>
-    loadData('aboutus', 'about-us-template', 'about-us');
-    loadData('visions', 'our-vision-template', 'our-vision');
-    loadData('testimonials', 'testimonial-template', 'testimonial');
-    loadData('team', 'our-team-template', 'ourTeam');
-    testData("team");
 
+  <script>
+    checkLogin();
+    if(location.hash == '' || location.hash == '#') {
+      loadPage();
+    } else {
+      loadDetails(location.hash.substr(1), 'details-about-template', 'content');
+    }
+
+    function loadPage() {
+      document.getElementById('main').style.display = 'block';
+      document.getElementById('content').style.display = 'none';
+
+      loadData('aboutus', 'about-us-template', 'about-us');
+      loadData('visions', 'our-vision-template', 'our-vision');
+      loadData('testimonials', 'testimonial-template', 'testimonial');
+      loadData('team', 'our-team-template', 'ourTeam');
+    }
+
+    history.replaceState({loadPage : 1}, null, location.href);
+
+    async function loadDetails(request, templateId, viewId){
+      document.getElementById('main').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+      await loadData(request, templateId, viewId);
+      history.replaceState({request, templateId, viewId}, null, location.href);
+    }
+
+    window.onpopstate = (event) => {
+      let state = event.state;
+      if(state && state.loadPage) {
+        loadPage();
+      } else if (state && state.request) {
+        loadDetails(state.request, state.templateId, state.viewId);
+      }
+    }
   </script>
 </body>
 

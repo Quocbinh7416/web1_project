@@ -14,6 +14,7 @@ Handlebars.registerHelper('formatDate', function(date) {
 })
 
 async function loadData(request, templateId, viewId) {
+    // console.log(request + templateId + viewId);
     const response = await fetch(`${API}/${request}`);
     const data = await response.json();
     var source = document.getElementById(templateId).innerHTML;
@@ -38,6 +39,7 @@ async function loadBlogs(request, currentPage = 1, templateId = 'blogs-template'
 
 async function loadBlogsDetail(blogId, goToComments = false) {
     await loadData(`blogs/${blogId}`, 'details-blogs-template', 'blogs');
+    checkLogin();
     if(goToComments) {
         window.location.href = "#comments";
     }
@@ -65,3 +67,80 @@ async function getAuthenticateToken(username, password) {
     }
     throw new Error(result.message);
   }
+
+// username: web1
+// password: W3b1@Project
+async function login(e) {
+    e.preventDefault();
+
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    document.getElementById("errorMessage").innerHTML = "";
+    try {
+      let token = await getAuthenticateToken(username, password);
+      if (token) {
+        localStorage.setItem("token", token);
+        document.getElementsByClassName("btn-close")[0].click();
+        displayControls();
+      }
+    } catch (error) {
+      document.getElementById("errorMessage").innerHTML = error;
+      displayControls(false);
+    }
+  }
+  
+  function displayControls(isLogin = true) {
+    let linkLogins = document.getElementsByClassName("linkLogin");
+    let linkLogouts = document.getElementsByClassName("linkLogout");
+  
+    let displayLogin = "none";
+    let displayLogout = "block";
+    if (!isLogin) {
+      displayLogin = "block";
+      displayLogout = "none";
+    }
+  
+    for (let i = 0; i < 2; i++) {
+        if(linkLogins[i] ){
+            linkLogins[i].style.display = displayLogin;
+        }
+        if(linkLogouts[i]) {
+            linkLogouts[i].style.display = displayLogout;
+        }
+    }
+  
+    let leaveComment = document.getElementById("leave-comments");
+    if (leaveComment) {
+      leaveComment.style.display = displayLogout;
+    }
+  }
+
+  async function checkLogin() {
+    let isLogin = await verifyToken();
+    displayControls(isLogin);
+  }
+  
+  async function verifyToken() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      let response = await fetch(`${AUTHENTICATE_API}/verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.status == 200) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  function logout() {
+    localStorage.clear();
+    displayControls(false);
+  }
+  
