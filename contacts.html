@@ -23,6 +23,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/23880008.css">
 
+    <!-- GOOGLE RECAPCHA -->
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK"></script>
 </head>
 
 <body>
@@ -265,14 +267,13 @@
     ></script>
     <script src="/js/23880008.js"></script>
 
-    <!-- GOOGLE RECAPCHA -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK"></script>
     <script>
       function onSubmit(event) {
         e.preventDefault();
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute('6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK', {action: 'LOGIN'});
-          let response = await fetch('myVerify.php', {
+          console.log(token);
+          let response = await fetch('verify.php', {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
