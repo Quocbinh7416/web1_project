@@ -1,0 +1,12 @@
+{{#each data}}
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <img src="{{imagepath}}" alt="Coffee" 
+        onmouseover="setActiveImagePath(this, '{{imagepath}}')"
+        onmouseleave="setActiveImagePath(this, '{{imagepath}}', false)"/>
+        <h3 >{{name}}</h3>
+        <p  class="text-black-50">{{summary}}</p>
+        <a
+        class="readmore btn btn-link"
+        href="?request=products/{{id}}">Read more</a>
+    </div>
+{{/each}}

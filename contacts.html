@@ -324,24 +324,25 @@
         e.preventDefault();
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute('6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK', {action: 'LOGIN'});
-          let response = await fetch("myVerify.php", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                },
-                body: JSON.stringify({ "g-token": token }),
-              });
+          // let response = await fetch("verify.php", {
+          //       method: "POST",
+          //       headers: {
+          //         "Content-Type": "application/json",
+          //         Accept: "application/json",
+          //       },
+          //       body: JSON.stringify({ "g-token": token }),
+          //     });
         });
-        if (response.status == 200) {
-                sendMail();
-              } else {
-                let responseMessage =
-                  document.getElementById("responseMessage");
-                responseMessage.innerHTML = "Error: can not verify RECAPTCHA";
-                responseMessage.classList.remove();
-                responseMessage.className = "text-danger";
-              }
+        // if (response.status == 200) {
+        //         sendMail();
+        //       } else {
+        //         let responseMessage =
+        //           document.getElementById("responseMessage");
+        //         responseMessage.innerHTML = "Error: can not verify RECAPTCHA";
+        //         responseMessage.classList.remove();
+        //         responseMessage.className = "text-danger";
+        //       }
+              sendMail();
       }
       async function sendMail() {
         let responseMessage = document.getElementById("responseMessage");

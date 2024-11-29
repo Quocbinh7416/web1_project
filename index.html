@@ -104,7 +104,7 @@
         </div>
       </nav>
     </header>
-    <div id="contentData">
+    <div id="content">
       <!-- BANNER -->
       <section class="container-fluid" id="banner">
         <div class="container text-white text-center">
@@ -348,62 +348,12 @@
     ></script>
 
     <!-- HANDLEBARS JS -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
-      integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.runtime.min.js" integrity="sha512-WUaZk9J3oknQdKPT2wAfA0gEBG2371l1ACjiynLA/X28p07n1u59VFk7q1i83/bo7N9rqVdYKlnvwAAiwL36jQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="js/23880008.js"></script>
+    <script src="js/index.templates.hs"></script>
 
-    <script id="product-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col-lg-3 col-md-6 col-sm-12">
-          <img src="{{imagepath}}" alt="Coffee" 
-            onmouseover="setActiveImagePath(this, '{{imagepath}}')"
-            onmouseleave="setActiveImagePath(this, '{{imagepath}}', false)"/>
-          <h3 >{{name}}</h3>
-          <p  class="text-black-50">{{summary}}</p>
-          <a
-            class="readmore btn btn-link"
-            href="?request=products/{{id}}">Read more</a>
-        </div>
-      {{/each}}
-    </script>
-
-    <script id="news-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col-md-4 px-3">
-          <div class="float-start me-3">
-            <div class="date text-white text-center rounded-4 py-1">
-              <h3>{{date}}</h3>
-            </div>
-            <a class="btn btn-link readmore ps-0"
-              href="?request=news/{{id}}"
-            >Read more</a>
-          </div>
-          <div>
-            <h3>{{name}}</h3>
-            <p class="text-black-50">{{summary}}</p>
-          </div>
-        </div>
-      {{/each}}
-    </script>
-
-    <script id="details-template" type="text/x-handlebars-template">
-      <section class="container-fluid" id="banner-small">
-      </section>
-      <section>
-        {{#each data}}
-          <div class="container py-5">
-            <h1 class="pb-3">{{name}}</h1>
-            <div class="text-black-50">{{{description}}}</div>
-          </div>
-        {{/each}}
-      </section>
-    </script>
     <script>
-
       let searchParams = new URLSearchParams(location.search);
       let request = searchParams.get("request");
       if(request) {

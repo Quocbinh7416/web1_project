@@ -1,0 +1,18 @@
+
+<div class="container">
+    <h1 class="text-white py-3">Testimonials</h1>
+    <div class="row">
+    {{#each data}}
+        <div class="col-4 d-flex align-items-start flex-column">
+        <p class="text-black-50 mb-auto">{{summary}}</p>
+        <div>
+            <span class="text-white">
+            {{name}}
+            </span>
+            <br>
+            <a href="#">{{email}}</a>
+        </div>
+        </div>
+    {{/each}}
+    </div>
+</div>

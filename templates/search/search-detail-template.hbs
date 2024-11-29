@@ -1,0 +1,7 @@
+{{#each data}}
+<h1 class="py-1 mb-3">{{name}}</h1>
+{{#if imagepath}}
+    <img class="float-start rounded-4 me-3" src="{{imagepath}}" alt="">
+{{/if}}
+<div class="text-black-50">{{{description}}}</div>
+{{/each}}

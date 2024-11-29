@@ -1,0 +1,9 @@
+<h1 class="py-3">About Us</h1>
+{{#each data}}
+<div>
+    <img src="{{thumbpath}}" alt="About us" class="float-start rounded-4 me-3">
+    <div class="text-black-50">{{{summary}}}</div>
+    <a href="#aboutus/{{id}}" class="btn btn-link readmore py-0 ps-0"
+    onclick = "loadDetails('aboutus/{{id}}', 'details-about-template', 'content')">Read more</a>
+</div>
+{{/each}}

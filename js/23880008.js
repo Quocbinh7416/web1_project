@@ -17,8 +17,10 @@ async function loadData(request, templateId, viewId) {
     // console.log(request + templateId + viewId);
     const response = await fetch(`${API}/${request}`);
     const data = await response.json();
-    var source = document.getElementById(templateId).innerHTML;
-    var template = Handlebars.compile(source);
+    // var source = document.getElementById(templateId).innerHTML;
+    // var template = Handlebars.compile(source);
+    var template = Handlebars.templates[`${templateId}`];
+
     var context = {data : data};
     var view = document.getElementById(viewId);
     view.innerHTML = template(context);
@@ -30,8 +32,9 @@ async function loadBlogs(request, currentPage = 1, templateId = 'blogs-template'
     context.currentPage = currentPage;
     context.request = request;
 
-    var source = document.getElementById(templateId).innerHTML;
-    var template = Handlebars.compile(source);
+    // var source = document.getElementById(templateId).innerHTML;
+    // var template = Handlebars.compile(source);
+    var template = Handlebars.templates[`${templateId}`];
 
     var view = document.getElementById(viewId);
     view.innerHTML = template(context);
