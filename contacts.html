@@ -296,6 +296,8 @@
       async function sendMail() {
         let responseMessage = document.getElementById("responseMessage");
         esponseMessage.innerHTML = "OK";
+        responseMessage.classList.remove();
+        responseMessage.className = "text-info";
       }
 
     </script>

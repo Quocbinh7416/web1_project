@@ -19,7 +19,7 @@ function create_assessment(
   string $token,
   string $project,
   string $action
-): bool {
+): Boolean {
   // Create the reCAPTCHA client.
   // TODO: Cache the client generation code (recommended) or call client.close() before exiting the method.
   $client = new RecaptchaEnterpriseServiceClient();
@@ -44,7 +44,7 @@ function create_assessment(
     if ($response->getTokenProperties()->getValid() == false) {
       printf('The CreateAssessment() call failed because the token was invalid for the following reason: ');
       printf(InvalidReason::name($response->getTokenProperties()->getInvalidReason()));
-      return;
+      return false;
     }
 
     // Check if the expected action was executed.
@@ -66,13 +66,12 @@ if (isset($_POST) && isset($_POST['g-token'])) {
     $token = $_POST['g-token'];
 
     // TODO: Replace the token and reCAPTCHA action variables before running the sample.
-    create_assessment(
+    return create_assessment(
         '6LfUTI0qAAAAAG4mcSUKwCV2LmG3vj1rCDEOf4AK',
         $token,
         'my-project-nubi7-1732875056601',
         'LOGIN'
     );
-    exit();
 } 
 
 
